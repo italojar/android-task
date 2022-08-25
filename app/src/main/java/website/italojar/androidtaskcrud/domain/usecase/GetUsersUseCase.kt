@@ -15,7 +15,7 @@ class GetUsersUseCase {
 
         return if(users.isNotEmpty()){
             users.map { userDto ->
-                val name = userDto.name ?: "Usuario sin nombre"
+                val name = userDto.name ?: "Unknow username"
                 userDto.toUser(name)
             }
         }else{

@@ -12,12 +12,17 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import website.italojar.androidtaskcrud.databinding.FragmentUsersBinding
 import website.italojar.androidtaskcrud.domain.model.User
 import website.italojar.androidtaskcrud.presentation.users.adapters.UserAdapter
+import website.italojar.androidtaskcrud.presentation.users.interfaces.IUsersListener
 
-class UsersFragment : Fragment() {
+class UsersFragment : Fragment(), IUsersListener {
 
     private var _binding: FragmentUsersBinding? = null
     private val binding get() = _binding!!
+
     private val viewModel: UsersViewModel by viewModels()
+    private val linearLayoutManager = LinearLayoutManager(context)
+    private lateinit var usersMutableList: MutableList<User>
+    private lateinit var userAdapter: UserAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -30,17 +35,37 @@ class UsersFragment : Fragment() {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.usersModel.observe(this, Observer {
-            initRecyclerViewOtes(it)
+        viewModel.usersModel.observe(this, Observer { users ->
+            usersMutableList = users as MutableList<User>
+            initRecyclerView()
         })
+        binding.btnAddUser.setOnClickListener { addUser() }
     }
 
-    private fun initRecyclerViewOtes(listUsers: List<User>){
-        binding.rvUsers.layoutManager = LinearLayoutManager(requireContext())
-        val userAdapter = UserAdapter(listUsers){ user ->
-            Toast.makeText(requireContext(), user.name, Toast.LENGTH_SHORT).show()
-        }
+    private fun initRecyclerView(){
+        userAdapter = UserAdapter(values = usersMutableList, listeners = this)
+        binding.rvUsers.layoutManager = linearLayoutManager
         binding.rvUsers.adapter = userAdapter
+    }
+
+    private fun addUser() {
+        if (!this::usersMutableList.isInitialized){
+            usersMutableList = mutableListOf(
+                User("1971-08-15T13:24:00", 5478, "New user")
+            )
+            initRecyclerView()
+        }else {
+            val user =  User("1971-08-15T13:24:00", 5478, "New user")
+            usersMutableList.add(0, user)
+            userAdapter.notifyItemInserted(0)
+            linearLayoutManager.scrollToPositionWithOffset(0, 8)
+        }
+        viewModel.updateUsers(usersMutableList)
+    }
+
+    override fun onDeleteUser(position: Int) {
+        usersMutableList.removeAt(position)
+        userAdapter.notifyItemRemoved(position)
     }
 
     override fun onDestroyView() {

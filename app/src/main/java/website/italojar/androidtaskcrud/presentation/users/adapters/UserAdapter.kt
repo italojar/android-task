@@ -7,10 +7,11 @@ import androidx.recyclerview.widget.RecyclerView
 import website.italojar.androidtaskcrud.R
 import website.italojar.androidtaskcrud.databinding.UserItemBinding
 import website.italojar.androidtaskcrud.domain.model.User
+import website.italojar.androidtaskcrud.presentation.users.interfaces.IUsersListener
 
 class UserAdapter(
-private val values: List<User>,
-private val onClick : (user: User) -> Unit
+    private val values: List<User>,
+    private val listeners: IUsersListener
 ): RecyclerView.Adapter<UserAdapter.UserViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): UserViewHolder {
@@ -21,7 +22,6 @@ private val onClick : (user: User) -> Unit
 
     override fun onBindViewHolder(holder: UserViewHolder, position: Int) {
         holder.render(values[position])
-        holder.itemView.setOnClickListener { onClick(values[position]) }
     }
 
     override fun getItemCount() = values.size
@@ -32,6 +32,7 @@ private val onClick : (user: User) -> Unit
             userItem.userId.text = user.id.toString()
             userItem.userName.text = user.name
             userItem.userBirthday.text = user.birthdate
+            userItem.btnDeleteUser.setOnClickListener { listeners.onDeleteUser(adapterPosition) }
         }
     }
 }
