@@ -1,8 +1,8 @@
 package website.italojar.androidtaskcrud.domain.repository
 
-import website.italojar.androidtaskcrud.data.datasource.remote.dto.UserDto
+import website.italojar.androidtaskcrud.data.model.dto.UserDtoItem
 
 interface UserRepository {
 
-    suspend fun getUsers(): List<UserDto>
+    suspend fun getUsers(): List<UserDtoItem>
 }

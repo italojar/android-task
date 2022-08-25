@@ -1,4 +1,4 @@
-package website.italojar.androidtaskcrud.presentation.user
+package website.italojar.androidtaskcrud.presentation.users
 
 import website.italojar.androidtaskcrud.domain.model.User
 

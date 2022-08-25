@@ -1,4 +1,4 @@
-package website.italojar.androidtaskcrud.presentation.user.adapters
+package website.italojar.androidtaskcrud.presentation.users.adapters
 
 import android.view.LayoutInflater
 import android.view.View
