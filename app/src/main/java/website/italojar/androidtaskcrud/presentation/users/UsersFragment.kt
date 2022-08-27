@@ -9,11 +9,13 @@ import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import dagger.hilt.android.AndroidEntryPoint
 import website.italojar.androidtaskcrud.databinding.FragmentUsersBinding
 import website.italojar.androidtaskcrud.domain.model.User
 import website.italojar.androidtaskcrud.presentation.users.adapters.UserAdapter
 import website.italojar.androidtaskcrud.presentation.users.interfaces.IUsersListener
 
+@AndroidEntryPoint
 class UsersFragment : Fragment(), IUsersListener {
 
     private var _binding: FragmentUsersBinding? = null
@@ -35,11 +37,11 @@ class UsersFragment : Fragment(), IUsersListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.users.observe(viewLifecycleOwner, Observer { users ->
+        viewModel.users.observe(this, Observer { users ->
             usersMutableList = users as MutableList<User>
             initRecyclerView()
         })
-        viewModel.isLoading.observe(viewLifecycleOwner, Observer { visibility ->
+        viewModel.isLoading.observe(this, Observer { visibility ->
             binding.progressBar.root.isVisible = visibility
         })
         binding.btnAddUser.setOnClickListener { addUser() }

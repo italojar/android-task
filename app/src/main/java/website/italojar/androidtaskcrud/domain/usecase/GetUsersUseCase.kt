@@ -6,9 +6,9 @@ import website.italojar.androidtaskcrud.domain.model.User
 import website.italojar.androidtaskcrud.domain.repository.UserRepository
 import javax.inject.Inject
 
-class GetUsersUseCase {
-
-    private val repository = UsersRepositoryImpl()
+class GetUsersUseCase @Inject constructor(
+    private val repository: UsersRepositoryImpl
+) {
 
     suspend operator fun invoke():List<User>{
         val users = repository.getUsers()
