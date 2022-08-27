@@ -5,7 +5,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
+import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -35,9 +35,12 @@ class UsersFragment : Fragment(), IUsersListener {
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        viewModel.usersModel.observe(this, Observer { users ->
+        viewModel.users.observe(viewLifecycleOwner, Observer { users ->
             usersMutableList = users as MutableList<User>
             initRecyclerView()
+        })
+        viewModel.isLoading.observe(viewLifecycleOwner, Observer { visibility ->
+            binding.progressBar.root.isVisible = visibility
         })
         binding.btnAddUser.setOnClickListener { addUser() }
     }
