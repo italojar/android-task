@@ -15,7 +15,6 @@ class UsersViewModel @Inject constructor(
     private val getUsersUseCase: GetUsersUseCase
 ) : ViewModel() {
 
-
     private val _usersModel = MutableLiveData<List<User>>()
     val users: LiveData<List<User>> = _usersModel
     val isLoading = MutableLiveData<Boolean>()

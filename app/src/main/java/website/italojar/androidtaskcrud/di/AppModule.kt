@@ -1,4 +1,4 @@
-package website.italojar.androidtaskcrud.common
+package website.italojar.androidtaskcrud.di
 
 import dagger.Module
 import dagger.Provides
@@ -6,12 +6,13 @@ import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import website.italojar.androidtaskcrud.common.Constants
 import website.italojar.androidtaskcrud.data.source.remote.interfaces.ApiClient
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-object RetrofitHelper {
+object AppModule {
 
     @Singleton
     @Provides
